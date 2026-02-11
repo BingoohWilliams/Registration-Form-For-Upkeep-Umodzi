@@ -2,39 +2,140 @@
 <html>
 <head>
   <title>University Registration</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 28px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+      font-family: inherit;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+    }
+
+    select {
+      cursor: pointer;
+      background-color: white;
+    }
+
+    select option {
+      padding: 10px;
+    }
+
+    button {
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
 </head>
 <body>
-<h2>Student Registration</h2>
+<div class="container">
+  <h2>Student Registration</h2>
 
-<form action="https://formsubmit.co/upkeepprogramumodzi@gmail.com" method="POST">
-  <input type="hidden" id="subject" name="_subject" value="New Registration">
-  <input type="hidden" name="_template" value="table">
+  <form action="https://formsubmit.co/upkeepprogramumodzi@gmail.com" method="POST">
+    <input type="hidden" id="subject" name="_subject" value="New Registration">
+    <input type="hidden" name="_template" value="table">
 
-  <input name="Name" placeholder="Full Name" required><br><br>
-  <input name="RegNumber" placeholder="Registration Number" required><br><br>
-  <input name="Phone" placeholder="Phone" required><br><br>
-  <input name="Email" type="email" placeholder="Email" required><br><br>
+    <input type="text" name="Name" placeholder="Full Name" required>
+    <input type="text" name="RegNumber" placeholder="Registration Number" required>
+    <input type="text" name="Phone" placeholder="Phone" required>
+    <input type="email" name="Email" placeholder="Email" required>
 
-  <select id="uni" name="University" required onchange="setSubject()">
-    <option value="">Select University</option>
-    <option>UNIMA</option>
-    <option>KUHES</option>
-    <option>MZUNI</option>
-    <option>MUBAS</option>
-    <option>DOMASI</option>
-    <option>LUANAR</option>
-    <option>MUST</option>
-  </select><br><br>
+    <select id="uni" name="University" required onchange="setSubject()">
+      <option value="">Select University</option>
+      <option>UNIMA</option>
+      <option>KUHES</option>
+      <option>MZUNI</option>
+      <option>MUBAS</option>
+      <option>DOMASI</option>
+      <option>LUANAR</option>
+      <option>MUST</option>
+    </select>
 
-  <button type="submit">Register</button>
-</form>
+    <button type="submit">Register</button>
+  </form>
+</div>
 
   <script>
 function setSubject(){
   var uni = document.getElementById("uni").value;
   document.getElementById("subject").value = "New Registration - " + uni;
 }
-</script>
+  </script>
 
 </body>
 </html>
