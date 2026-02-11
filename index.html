@@ -7,7 +7,7 @@
 <h2>Student Registration</h2>
 
 <form action="https://formsubmit.co/upkeepprogramumodzi@gmail.com" method="POST">
-  <input type="hidden" name="_subject" value="New Registration">
+  <input type="hidden" id="subject" name="_subject" value="New Registration">
   <input type="hidden" name="_template" value="table">
 
   <input name="Name" placeholder="Full Name" required><br><br>
@@ -15,7 +15,7 @@
   <input name="Phone" placeholder="Phone" required><br><br>
   <input name="Email" type="email" placeholder="Email" required><br><br>
 
-  <select name="University" required>
+  <select id="uni" name="University" required onchange="setSubject()">
     <option value="">Select University</option>
     <option>UNIMA</option>
     <option>KUHES</option>
@@ -28,5 +28,13 @@
 
   <button type="submit">Register</button>
 </form>
+
+  <script>
+function setSubject(){
+  var uni = document.getElementById("uni").value;
+  document.getElementById("subject").value = "New Registration - " + uni;
+}
+</script>
+
 </body>
 </html>
