@@ -1,51 +1,441 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registration Form</title>
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 500px;
-            border: 1px solid #ccc;
-            padding: 20px;
-        }
-        input {
-            margin: 10px 0;
-            padding: 10px;
-            width: 100%;
-        }
-        label {
-            margin: 10px 0;
-        }
-        button {
-            padding: 10px;
-            width: 100%;
-        }
-    </style>
+  <title>Upkeep Registration - Umodzi</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .logo-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo-section img {
+      max-width: 150px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+      font-family: inherit;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+    }
+
+    input[type="text"].error,
+    input[type="email"].error,
+    select.error {
+      border-color: #e74c3c;
+      box-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 13px;
+      margin-top: -15px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    select {
+      cursor: pointer;
+      background-color: white;
+    }
+
+    select option {
+      padding: 10px;
+    }
+
+    button {
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .signature-section {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+
+    .signature-section img {
+      max-width: 120px;
+      height: auto;
+    }
+
+    /* Success Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 40px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .success-icon {
+      width: 60px;
+      height: 60px;
+      background-color: #27ae60;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 36px;
+      color: white;
+    }
+
+    .modal-content h3 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 24px;
+    }
+
+    .modal-content p {
+      color: #666;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .modal-content button {
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      .logo-section img {
+        max-width: 120px;
+      }
+
+      .signature-section img {
+        max-width: 100px;
+      }
+
+      .modal-content {
+        margin: 50% auto;
+        width: 85%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Registration Form</h2>
-        <form>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Register</button>
-        </form>
+<div class="container">
+  <div class="logo-section">
+    <img src="Umodzi logo.jpeg" alt="Umodzi Logo">
+  </div>
+
+  <h2>Upkeep Registration</h2>
+
+  <form action="https://formsubmit.co/upkeepprogramumodzi@gmail.com" method="POST" id="registrationForm">
+    <input type="hidden" id="subject" name="_subject" value="New Registration">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://bingoohwilliams.github.io/Registration-Form-For-Upkeep-Umodzi/">
+
+    <div>
+      <input type="text" name="Name" id="fullName" placeholder="Full Name" required>
+      <div class="error-message" id="nameError"></div>
     </div>
+
+    <div>
+      <input type="text" name="RegNumber" id="regNumber" placeholder="Registration Number" required>
+      <div class="error-message" id="regError"></div>
+    </div>
+
+    <div>
+      <input type="text" name="Phone" id="phone" placeholder="Phone" required>
+      <div class="error-message" id="phoneError"></div>
+    </div>
+
+    <div>
+      <input type="email" name="Email" id="email" placeholder="Email" required>
+      <div class="error-message" id="emailError"></div>
+    </div>
+
+    <div>
+      <select id="uni" name="University" required onchange="setSubject()">
+        <option value="">Select University</option>
+        <option>UNIMA</option>
+        <option>KUHES</option>
+        <option>MZUNI</option>
+        <option>MUBAS</option>
+        <option>DOMASI</option>
+        <option>LUANAR</option>
+        <option>MUST</option>
+      </select>
+      <div class="error-message" id="uniError"></div>
+    </div>
+
+    <button type="submit" id="submitBtn">Register</button>
+  </form>
+
+  <div class="signature-section">
+    <img src="umodzi signature.png" alt="Umodzi Signature">
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div id="successModal" class="modal">
+  <div class="modal-content">
+    <div class="success-icon">✓</div>
+    <h3>Registration Successful!</h3>
+    <p>Your registration has been submitted successfully. Thank you for registering with Upkeep Umodzi.</p>
+    <button onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script>
+// Load registered numbers from localStorage
+function getRegisteredNumbers() {
+  const stored = localStorage.getItem('registeredNumbers');
+  return stored ? JSON.parse(stored) : [];
+}
+
+// Save registered number to localStorage
+function saveRegisteredNumber(regNumber) {
+  const numbers = getRegisteredNumbers();
+  if (!numbers.includes(regNumber)) {
+    numbers.push(regNumber);
+    localStorage.setItem('registeredNumbers', JSON.stringify(numbers));
+  }
+}
+
+// Check if registration number already exists
+function isRegNumberRegistered(regNumber) {
+  const numbers = getRegisteredNumbers();
+  return numbers.includes(regNumber);
+}
+
+function setSubject(){
+  var uni = document.getElementById("uni").value;
+  document.getElementById("subject").value = "New Registration - " + uni;
+}
+
+function clearErrors() {
+  document.querySelectorAll('.error-message').forEach(el => {
+    el.classList.remove('show');
+    el.textContent = '';
+  });
+  document.querySelectorAll('input, select').forEach(el => {
+    el.classList.remove('error');
+  });
+}
+
+function showModal() {
+  document.getElementById('successModal').style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('successModal').style.display = 'none';
+  // Reload page after closing modal
+  window.location.reload();
+}
+
+document.getElementById('registrationForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  clearErrors();
+
+  const fullName = document.getElementById('fullName').value.trim();
+  const regNumber = document.getElementById('regNumber').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const uni = document.getElementById('uni').value;
+
+  let isValid = true;
+
+  // Validate Full Name
+  if (!fullName) {
+    document.getElementById('nameError').textContent = 'Full Name is required';
+    document.getElementById('nameError').classList.add('show');
+    document.getElementById('fullName').classList.add('error');
+    isValid = false;
+  }
+
+  // Validate Registration Number
+  if (!regNumber) {
+    document.getElementById('regError').textContent = 'Registration Number is required';
+    document.getElementById('regError').classList.add('show');
+    document.getElementById('regNumber').classList.add('error');
+    isValid = false;
+  } else if (isRegNumberRegistered(regNumber)) {
+    document.getElementById('regError').textContent = 'This Registration Number has already been submitted!';
+    document.getElementById('regError').classList.add('show');
+    document.getElementById('regNumber').classList.add('error');
+    isValid = false;
+  }
+
+  // Validate Phone
+  if (!phone) {
+    document.getElementById('phoneError').textContent = 'Phone is required';
+    document.getElementById('phoneError').classList.add('show');
+    document.getElementById('phone').classList.add('error');
+    isValid = false;
+  }
+
+  // Validate Email
+  if (!email) {
+    document.getElementById('emailError').textContent = 'Email is required';
+    document.getElementById('emailError').classList.add('show');
+    document.getElementById('email').classList.add('error');
+    isValid = false;
+  } else if (!email.includes('@')) {
+    document.getElementById('emailError').textContent = 'Please enter a valid email';
+    document.getElementById('emailError').classList.add('show');
+    document.getElementById('email').classList.add('error');
+    isValid = false;
+  }
+
+  // Validate University
+  if (!uni) {
+    document.getElementById('uniError').textContent = 'Please select a university';
+    document.getElementById('uniError').classList.add('show');
+    document.getElementById('uni').classList.add('error');
+    isValid = false;
+  }
+
+  if (isValid) {
+    // Save registration number to prevent duplicates
+    saveRegisteredNumber(regNumber);
+    
+    // Show success modal
+    showModal();
+    
+    // Submit form after short delay
+    setTimeout(() => {
+      this.submit();
+    }, 1000);
+  }
+});
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const modal = document.getElementById('successModal');
+  if (event.target === modal) {
+    closeModal();
+  }
+}
+</script>
+
 </body>
 </html>
