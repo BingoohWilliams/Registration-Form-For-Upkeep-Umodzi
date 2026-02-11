@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>University Registration</title>
+  <title>Upkeep Registration - Umodzi</title>
   <style>
     * {
       margin: 0;
@@ -28,11 +28,23 @@
       max-width: 500px;
     }
 
+    .logo-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo-section img {
+      max-width: 150px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
     h2 {
       color: #333;
       margin-bottom: 30px;
       text-align: center;
       font-size: 28px;
+      font-weight: 600;
     }
 
     form {
@@ -91,6 +103,18 @@
       transform: translateY(0);
     }
 
+    .signature-section {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+
+    .signature-section img {
+      max-width: 120px;
+      height: auto;
+    }
+
     @media (max-width: 600px) {
       .container {
         padding: 25px;
@@ -99,12 +123,24 @@
       h2 {
         font-size: 24px;
       }
+
+      .logo-section img {
+        max-width: 120px;
+      }
+
+      .signature-section img {
+        max-width: 100px;
+      }
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <h2>Student Registration</h2>
+  <div class="logo-section">
+    <img src="Umodzi logo.jpeg" alt="Umodzi Logo">
+  </div>
+
+  <h2>Upkeep Registration</h2>
 
   <form action="https://formsubmit.co/upkeepprogramumodzi@gmail.com" method="POST">
     <input type="hidden" id="subject" name="_subject" value="New Registration">
@@ -128,6 +164,10 @@
 
     <button type="submit">Register</button>
   </form>
+
+  <div class="signature-section">
+    <img src="umodzi signature.png" alt="Umodzi Signature">
+  </div>
 </div>
 
   <script>
