@@ -103,6 +103,12 @@
       transform: translateY(0);
     }
 
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .signature-section {
       text-align: center;
       margin-top: 30px;
@@ -142,9 +148,11 @@
 
   <h2>Upkeep Registration</h2>
 
-  <form action="https://formsubmit.co/upkeepprogramumodzi@gmail.com" method="POST">
+  <form action="https://formsubmit.co/upkeepprogramumodzi@gmail.com" method="POST" id="registrationForm">
     <input type="hidden" id="subject" name="_subject" value="New Registration">
     <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://bingoohwilliams.github.io/Registration-Form-For-Upkeep-Umodzi/">
 
     <input type="text" name="Name" placeholder="Full Name" required>
     <input type="text" name="RegNumber" placeholder="Registration Number" required>
@@ -162,7 +170,7 @@
       <option>MUST</option>
     </select>
 
-    <button type="submit">Register</button>
+    <button type="submit" id="submitBtn">Register</button>
   </form>
 
   <div class="signature-section">
@@ -175,6 +183,12 @@ function setSubject(){
   var uni = document.getElementById("uni").value;
   document.getElementById("subject").value = "New Registration - " + uni;
 }
+
+document.getElementById('registrationForm').addEventListener('submit', function(e) {
+  var submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
+});
   </script>
 
 </body>
