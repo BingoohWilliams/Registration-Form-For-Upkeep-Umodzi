@@ -306,27 +306,6 @@
 </div>
 
 <script>
-// Load registered numbers from localStorage
-function getRegisteredNumbers() {
-  const stored = localStorage.getItem('registeredNumbers');
-  return stored ? JSON.parse(stored) : [];
-}
-
-// Save registered number to localStorage
-function saveRegisteredNumber(regNumber) {
-  const numbers = getRegisteredNumbers();
-  if (!numbers.includes(regNumber)) {
-    numbers.push(regNumber);
-    localStorage.setItem('registeredNumbers', JSON.stringify(numbers));
-  }
-}
-
-// Check if registration number already exists
-function isRegNumberRegistered(regNumber) {
-  const numbers = getRegisteredNumbers();
-  return numbers.includes(regNumber);
-}
-
 function setSubject(){
   var uni = document.getElementById("uni").value;
   document.getElementById("subject").value = "New Registration - " + uni;
@@ -348,7 +327,6 @@ function showModal() {
 
 function closeModal() {
   document.getElementById('successModal').style.display = 'none';
-  // Reload page after closing modal
   window.location.reload();
 }
 
@@ -364,7 +342,6 @@ document.getElementById('registrationForm').addEventListener('submit', function(
 
   let isValid = true;
 
-  // Validate Full Name
   if (!fullName) {
     document.getElementById('nameError').textContent = 'Full Name is required';
     document.getElementById('nameError').classList.add('show');
@@ -372,20 +349,13 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     isValid = false;
   }
 
-  // Validate Registration Number
   if (!regNumber) {
     document.getElementById('regError').textContent = 'Registration Number is required';
     document.getElementById('regError').classList.add('show');
     document.getElementById('regNumber').classList.add('error');
     isValid = false;
-  } else if (isRegNumberRegistered(regNumber)) {
-    document.getElementById('regError').textContent = 'This Registration Number has already been submitted!';
-    document.getElementById('regError').classList.add('show');
-    document.getElementById('regNumber').classList.add('error');
-    isValid = false;
   }
 
-  // Validate Phone
   if (!phone) {
     document.getElementById('phoneError').textContent = 'Phone is required';
     document.getElementById('phoneError').classList.add('show');
@@ -393,7 +363,6 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     isValid = false;
   }
 
-  // Validate Email
   if (!email) {
     document.getElementById('emailError').textContent = 'Email is required';
     document.getElementById('emailError').classList.add('show');
@@ -406,7 +375,6 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     isValid = false;
   }
 
-  // Validate University
   if (!uni) {
     document.getElementById('uniError').textContent = 'Please select a university';
     document.getElementById('uniError').classList.add('show');
@@ -415,13 +383,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
   }
 
   if (isValid) {
-    // Save registration number to prevent duplicates
-    saveRegisteredNumber(regNumber);
-    
-    // Show success modal
     showModal();
-    
-    // Submit form after short delay
     setTimeout(() => {
       this.submit();
     }, 1000);
