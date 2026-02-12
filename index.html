@@ -175,7 +175,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
   if (!uni) { document.getElementById('uniError').textContent = 'Please select a university'; document.getElementById('uniError').classList.add('show'); document.getElementById('uni').classList.add('error'); isValid = false; }
 
   if (isValid) {
-    fetch("https://sheetdb.io/api/v1/YOUR_SHEETDB_API", {
+    fetch("https://sheetdb.io/api/v1/5d8pqhzvhg3br", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ data: { fullName, regNumber, phone, email, uni } })
