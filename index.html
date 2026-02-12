@@ -300,134 +300,130 @@
     </div>
 
     <script>
-      function setSubject() {
-        var uni = document.getElementById("uni").value;
-        document.getElementById("subject").value = "New Registration - " + uni;
+  function setSubject() {
+    var uni = document.getElementById("uni").value;
+    document.getElementById("subject").value = "New Registration - " + uni;
+  }
+
+  function clearErrors() {
+    document.querySelectorAll(".error-message").forEach((el) => {
+      el.classList.remove("show");
+      el.textContent = "";
+    });
+    document.querySelectorAll("input, select").forEach((el) => {
+      el.classList.remove("error");
+    });
+  }
+
+  function showModal() {
+    document.getElementById("successModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("successModal").style.display = "none";
+    document.getElementById("registrationForm").reset(); 
+    document.getElementById("submitBtn").disabled = false;
+    document.getElementById("submitBtn").textContent = "Register"; // Ensure text resets
+  }
+
+  document.getElementById("registrationForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    clearErrors();
+
+    const fullName = document.getElementById("fullName").value.trim();
+    const regNumber = document.getElementById("regNumber").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const uni = document.getElementById("uni").value;
+
+    let isValid = true;
+
+    // Validation Logic (Kept your original logic)
+    if (!fullName) {
+      document.getElementById("nameError").textContent = "Full Name is required";
+      document.getElementById("nameError").classList.add("show");
+      document.getElementById("fullName").classList.add("error");
+      isValid = false;
+    }
+    if (!regNumber) {
+      document.getElementById("regError").textContent = "Registration Number is required";
+      document.getElementById("regError").classList.add("show");
+      document.getElementById("regNumber").classList.add("error");
+      isValid = false;
+    }
+    if (!phone) {
+      document.getElementById("phoneError").textContent = "Phone is required";
+      document.getElementById("phoneError").classList.add("show");
+      document.getElementById("phone").classList.add("error");
+      isValid = false;
+    }
+    if (!email) {
+      document.getElementById("emailError").textContent = "Email is required";
+      document.getElementById("emailError").classList.add("show");
+      document.getElementById("email").classList.add("error");
+      isValid = false;
+    } else if (!email.includes("@")) {
+      document.getElementById("emailError").textContent = "Please enter a valid email";
+      document.getElementById("emailError").classList.add("show");
+      document.getElementById("email").classList.add("error");
+      isValid = false;
+    }
+    if (!uni) {
+      document.getElementById("uniError").textContent = "Please select a university";
+      document.getElementById("uniError").classList.add("show");
+      document.getElementById("uni").classList.add("error");
+      isValid = false;
+    }
+
+    if (isValid) {
+      const superKey = `${regNumber.toLowerCase()}_${uni.toLowerCase()}_${email.toLowerCase()}`;
+      let submittedKeys = JSON.parse(localStorage.getItem("submittedKeys") || "[]");
+
+      if (submittedKeys.includes(superKey)) {
+        alert("You have already submitted this registration!");
+        return;
       }
 
-      function clearErrors() {
-        document.querySelectorAll(".error-message").forEach((el) => {
-          el.classList.remove("show");
-          el.textContent = "";
-        });
-        document.querySelectorAll("input, select").forEach((el) => {
-          el.classList.remove("error");
-        });
-      }
+      const submitBtn = document.getElementById("submitBtn");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting..."; // Acts as your loader
 
-      function showModal() {
-        document.getElementById("successModal").style.display = "block";
-      }
+      // REPLACED SHEETDB WITH GOOGLE APPS SCRIPT
+      fetch("YOUR_GOOGLE_WEB_APP_URL_HERE", {
+        method: "POST",
+        mode: "no-cors", // Required for Google Scripts
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: fullName,
+          regNumber: regNumber,
+          phone: phone,
+          email: email,
+          uni: uni
+        }),
+      })
+      .then(() => {
+        // Since no-cors doesn't return a readable 'res', we assume success if no error
+        submittedKeys.push(superKey);
+        localStorage.setItem("submittedKeys", JSON.stringify(submittedKeys));
+        
+        // Give it a 1-second delay so the user sees the "Submitting" state
+        setTimeout(() => {
+          showModal();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Submission failed. Please check your connection.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Register";
+      });
+    }
+  });
 
-      function closeModal() {
-        document.getElementById("successModal").style.display = "none";
-        document.getElementById("registrationForm").reset(); // clear form
-        document.getElementById("submitBtn").disabled = false; // re-enable button
-      }
-
-      document
-        .getElementById("registrationForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          clearErrors();
-
-          const fullName = document.getElementById("fullName").value.trim();
-          const regNumber = document.getElementById("regNumber").value.trim();
-          const phone = document.getElementById("phone").value.trim();
-          const email = document.getElementById("email").value.trim();
-          const uni = document.getElementById("uni").value;
-
-          let isValid = true;
-
-          if (!fullName) {
-            document.getElementById("nameError").textContent =
-              "Full Name is required";
-            document.getElementById("nameError").classList.add("show");
-            document.getElementById("fullName").classList.add("error");
-            isValid = false;
-          }
-          if (!regNumber) {
-            document.getElementById("regError").textContent =
-              "Registration Number is required";
-            document.getElementById("regError").classList.add("show");
-            document.getElementById("regNumber").classList.add("error");
-            isValid = false;
-          }
-          if (!phone) {
-            document.getElementById("phoneError").textContent =
-              "Phone is required";
-            document.getElementById("phoneError").classList.add("show");
-            document.getElementById("phone").classList.add("error");
-            isValid = false;
-          }
-          if (!email) {
-            document.getElementById("emailError").textContent =
-              "Email is required";
-            document.getElementById("emailError").classList.add("show");
-            document.getElementById("email").classList.add("error");
-            isValid = false;
-          } else if (!email.includes("@")) {
-            document.getElementById("emailError").textContent =
-              "Please enter a valid email";
-            document.getElementById("emailError").classList.add("show");
-            document.getElementById("email").classList.add("error");
-            isValid = false;
-          }
-          if (!uni) {
-            document.getElementById("uniError").textContent =
-              "Please select a university";
-            document.getElementById("uniError").classList.add("show");
-            document.getElementById("uni").classList.add("error");
-            isValid = false;
-          }
-
-          if (isValid) {
-            const superKey = `${regNumber.toLowerCase()}_${uni.toLowerCase()}_${email.toLowerCase()}`;
-            let submittedKeys = JSON.parse(
-              localStorage.getItem("submittedKeys") || "[]",
-            );
-
-            if (submittedKeys.includes(superKey)) {
-              alert("You have already submitted this registration!");
-              document.getElementById("submitBtn").disabled = false;
-              document.getElementById("submitBtn").textContent = "Register"; // reset text
-              return;
-            }
-
-            // Disable button and show submitting text
-            const submitBtn = document.getElementById("submitBtn");
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Submitting...";
-
-            fetch("https://sheetdb.io/api/v1/5d8pqhzvhg3br", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                data: { fullName, regNumber, phone, email, uni },
-              }),
-            })
-              .then((res) => res.json()) // SheetDB returns JSON
-              .then(() => {
-                submittedKeys.push(superKey);
-                localStorage.setItem(
-                  "submittedKeys",
-                  JSON.stringify(submittedKeys),
-                );
-                showModal();
-                submitBtn.textContent = "Register"; // reset button text
-              })
-              .catch(() => {
-                alert("Submission failed. Please try again.");
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Register"; // reset button text
-              });
-          }
-        });
-
-      window.onclick = function (event) {
-        const modal = document.getElementById("successModal");
-        if (event.target === modal) closeModal();
-      };
-    </script>
+  window.onclick = function (event) {
+    const modal = document.getElementById("successModal");
+    if (event.target === modal) closeModal();
+  };
+</script>
   </body>
 </html>
